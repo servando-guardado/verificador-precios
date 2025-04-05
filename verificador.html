@@ -27,7 +27,7 @@
         let data = []; // Almacenar los datos del CSV
 
         // Cargar el archivo CSV
-            fetch('https://[servando-guardado].github.io/[verificador-precios]/productos.csv')
+            fetch('https://servando-guardado.github.io/verificador-precios/productos.csv')
             .then(response => response.text())
             .then(csvText => {
                 data = parseCSV(csvText);
