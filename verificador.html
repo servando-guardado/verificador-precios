@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verificador de Precios</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        #barcodeInput {
+            font-size: 24px;
+            padding: 10px;
+            width: 300px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="barcodeInput" placeholder="Escanear código de barras" autofocus>
+    <div id="result"></div>
+
+    <script>
+        const barcodeInput = document.getElementById('barcodeInput');
+        const resultDiv = document.getElementById('result');
+        let data = []; // Almacenar los datos del CSV
+
+        // Cargar el archivo CSV
+            fetch('https://[tu-nombre-de-usuario].github.io/[nombre-del-repositorio]/productos.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                data = parseCSV(csvText);
+				console.log(csvText); // Mostrar el contenido del CSV en la consola
+            });
+
+        // Función para analizar el CSV
+        function parseCSV(csvText) {
+            const rows = csvText.split('\n');
+            const data = rows.map(row => row.split(','));
+            console.log('Datos analizados:', data); // Agrega esta línea
+            return data;
+        }
+
+        // Función para buscar el producto por código de barras
+        function findProduct(barcode) {
+		    console.log('Buscando código de barras:', barcode); 
+            for (const row of data) {
+                if (row[0] === barcode) {
+                    return {
+                        articulo: row[1],
+                        precio: row[2]
+                    };
+                }
+            }
+            return null;
+        }
+
+        // Evento para el campo de entrada de código de barras
+        barcodeInput.addEventListener('input', function() {
+            const barcode = this.value;
+            const product = findProduct(barcode);
+
+            if (product) {
+                resultDiv.innerHTML = `Artículo: ${product.articulo}<br>Precio: $${product.precio}`;
+            } else {
+                resultDiv.innerHTML = 'Producto no encontrado';
+            }
+        });
+
+        // Limpiar el campo de entrada después de cada escaneo
+        barcodeInput.addEventListener('change', function() {
+            this.value = '';
+            this.focus();
+        });
+
+        // Mantener el campo de entrada enfocado
+        barcodeInput.focus();
+    </script>
+</body>
+</html>
