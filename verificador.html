@@ -60,6 +60,14 @@
         }
 
         function findProduct(barcode) {
+		    if (isNaN(barcode.charAt(0))) {
+               return null; // Ignora los códigos que comienzan con una letra
+            }
+
+            if (barcode.startsWith("0")) {
+               barcode = barcode.substring(1); // Elimina el cero inicial
+            } 
+			
             for (const row of data) {
                 if (row[0] === barcode) {
                     return {
