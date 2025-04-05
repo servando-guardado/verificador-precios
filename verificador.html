@@ -1,50 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificador de Precios</title>
     <style>
         body {
             font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
         }
+
         #barcodeInput {
-            font-size: 24px;
-            padding: 10px;
-            width: 300px;
+            position: absolute;
+            left: -9999px; /* Lo mueve fuera de la vista */
         }
-        #result {
-            margin-top: 20px;
-            font-size: 18px;
+
+        .precio {
+            font-size: 10em;
+            color: #333;
+            margin-bottom: 20px;
+			font-weight: bold
+        }
+
+        .articulo, .codigo {
+            font-size: 5em;
+            color: #666;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <input type="text" id="barcodeInput" placeholder="Escanear código de barras" autofocus>
-    <div id="result"></div>
+    <input type="text" id="barcodeInput" autofocus>
+    <div class="precio" id="precio"></div>
+    <div class="articulo" id="articulo"></div>
+    <div class="codigo" id="codigo"></div>
 
     <script>
         const barcodeInput = document.getElementById('barcodeInput');
-        const resultDiv = document.getElementById('result');
-        let data = []; // Almacenar los datos del CSV
+        const precioDiv = document.getElementById('precio');
+        const articuloDiv = document.getElementById('articulo');
+        const codigoDiv = document.getElementById('codigo');
+        let data = [];
 
-        // Cargar el archivo CSV
-            fetch('https://servando-guardado.github.io/verificador-precios/productos.csv')
+        fetch('https://servando-guardado.github.io/verificador-precios/productos.csv')
             .then(response => response.text())
             .then(csvText => {
                 data = parseCSV(csvText);
-				console.log(csvText); // Mostrar el contenido del CSV en la consola
             });
 
-        // Función para analizar el CSV
         function parseCSV(csvText) {
             const rows = csvText.split('\n');
-            const data = rows.map(row => row.split(','));
-            console.log('Datos analizados:', data); // Agrega esta línea
-            return data;
+            return rows.map(row => row.split(','));
         }
 
-        // Función para buscar el producto por código de barras
         function findProduct(barcode) {
-		    console.log('Buscando código de barras:', barcode); 
             for (const row of data) {
                 if (row[0] === barcode) {
                     return {
@@ -56,25 +71,26 @@
             return null;
         }
 
-        // Evento para el campo de entrada de código de barras
         barcodeInput.addEventListener('input', function() {
             const barcode = this.value;
             const product = findProduct(barcode);
 
             if (product) {
-                resultDiv.innerHTML = `Artículo: ${product.articulo}<br>Precio: $${product.precio}`;
+                precioDiv.textContent = `${product.precio}`;
+                articuloDiv.textContent = `${product.articulo}`;
+                codigoDiv.textContent = `${barcode}`;
             } else {
-                resultDiv.innerHTML = 'Producto no encontrado';
+                precioDiv.textContent = '';
+                articuloDiv.textContent = 'Producto no encontrado';
+                codigoDiv.textContent = '';
             }
         });
 
-        // Limpiar el campo de entrada después de cada escaneo
         barcodeInput.addEventListener('change', function() {
             this.value = '';
             this.focus();
         });
 
-        // Mantener el campo de entrada enfocado
         barcodeInput.focus();
     </script>
 </body>
