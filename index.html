@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head> 
+    <link rel="manifest" href='https://servando-guardado.github.io/verificador-precios/manifest.json'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificador de Precios</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #FFFFFF;
+        }
+
+        #barcodeInput {
+            position: absolute;
+            left: -9999px; /* Lo mueve fuera de la vista */
+        }
+
+        .precio {
+            font-size: 6em;
+            color: #000000;
+            margin-bottom: 20px;
+			font-weight: bold
+        }
+
+        .articulo, .codigo {
+            font-size: 3em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="barcodeInput" autofocus>
+    <div class="precio" id="precio"></div>
+    <div class="articulo" id="articulo"></div>
+    <div class="codigo" id="codigo"></div>
+
+    <script>
+        const barcodeInput = document.getElementById('barcodeInput');
+        const precioDiv = document.getElementById('precio');
+        const articuloDiv = document.getElementById('articulo');
+        const codigoDiv = document.getElementById('codigo');
+        let data = [];
+
+        fetch('https://servando-guardado.github.io/verificador-precios/productos.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                data = parseCSV(csvText);
+            });
+
+        function parseCSV(csvText) {
+            const rows = csvText.split('\n');
+            return rows.map(row => row.split(','));
+        }
+
+        function findProduct(barcode) {
+		    if (isNaN(barcode.charAt(0))) {
+               return null; // Ignora los códigos que comienzan con una letra
+            }
+
+            if (barcode.startsWith("0")) {
+               barcode = barcode.substring(1); // Elimina el cero inicial
+            } 
+			
+            for (const row of data) {
+                if (row[0] === barcode) {
+                    return {
+                        articulo: row[1],
+                        precio: row[2]
+                    };
+                }
+            }
+            return null;
+        }
+
+        barcodeInput.addEventListener('input', function() {
+            const barcode = this.value;
+            const product = findProduct(barcode);
+
+            if (product) {
+                precioDiv.textContent = `${product.precio}`;
+                articuloDiv.textContent = `${product.articulo}`;
+                codigoDiv.textContent = `${barcode}`;
+            } else {
+                precioDiv.textContent = '';
+                articuloDiv.textContent = 'Producto no encontrado';
+                codigoDiv.textContent = '';
+            }
+        });
+
+        barcodeInput.addEventListener('change', function() {
+            this.value = '';
+            this.focus();
+        });
+
+        barcodeInput.focus();
+		
+    </script>
+</body>
+</html>
