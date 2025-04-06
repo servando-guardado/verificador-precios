@@ -1,8 +1,22 @@
 {
-    "name": "Verificador de Precios",
-    "short_name": "Precios",
-    "start_url": "https://servando-guardado.github.io/verificador-precios/index.html",
-    "display": "standalone",
-    "background_color": "#FFFFFF",
-    "theme_color": "#FFFFFF"
+  "name": "Verificador de Precios",
+  "short_name": "Precios",
+  "start_url": "https://servando-guardado.github.io/verificador-precios/index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "https://servando-guardado.github.io/verificador-precios/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+	  "purpose": "maskable"
+    },
+    {
+      "src": "https://servando-guardado.github.io/verificador-precios/icon-512x512.png",,
+      "sizes": "512x512",
+      "type": "image/png"
+	  "purpose": "maskable"
+    }
+  ]
 }
