@@ -1,7 +1,7 @@
 {
     "name": "Verificador de Precios",
     "short_name": "Precios",
-    "start_url": ".",
+    "start_url": "https://servando-guardado.github.io/verificador-precios/index.html",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#FFFFFF"
