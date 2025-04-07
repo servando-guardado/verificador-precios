@@ -2,6 +2,7 @@ const CACHE_NAME = 'verificador-precios-v1';
 const urlsToCache = [
   '/',
   'https://servando-guardado.github.io/verificador-precios/index.html',
+  'https://servando-guardado.github.io/verificador-precios/icon-144x144.png',
   'https://servando-guardado.github.io/verificador-precios/icon-192x192.png',
   'https://servando-guardado.github.io/verificador-precios/icon-512x512.png',
   'https://servando-guardado.github.io/verificador-precios/productos.csv' // Cachear el archivo CSV
