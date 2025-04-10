@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head> 
     <link rel="manifest" href='https://servando-guardado.github.io/verificador-precios/manifest.json'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@
             font-size: 6em;
             color: #000000;
             margin-bottom: 20px;
-            font-weight: bold
+			font-weight: bold
         }
 
         .articulo, .codigo {
@@ -61,14 +61,14 @@
         }
 
         function findProduct(barcode) {
-            if (isNaN(barcode.charAt(0))) {
-                return null; // Ignora los códigos que comienzan con una letra
+		    if (isNaN(barcode.charAt(0))) {
+               return null; // Ignora los códigos que comienzan con una letra
             }
 
             if (barcode.startsWith("0")) {
-                barcode = barcode.substring(1); // Elimina el cero inicial
-            }
-
+               barcode = barcode.substring(1); // Elimina el cero inicial
+            } 
+			
             for (const row of data) {
                 if (row[0] === barcode) {
                     return {
@@ -80,16 +80,6 @@
             return null;
         }
 
-        function leerPrecio(precio) {
-            if ('speechSynthesis' in window) {
-                const mensaje = new SpeechSynthesisUtterance();
-                mensaje.text = precio;
-                window.speechSynthesis.speak(mensaje);
-            } else {
-                console.error('La API de Text-to-Speech no es compatible con este navegador.');
-            }
-        }
-
         barcodeInput.addEventListener('input', function() {
             const barcode = this.value;
             const product = findProduct(barcode);
@@ -98,7 +88,6 @@
                 precioDiv.textContent = `${product.precio}`;
                 articuloDiv.textContent = `${product.articulo}`;
                 codigoDiv.textContent = `${barcode}`;
-                leerPrecio(product.precio); // Llama a la lectura del precio
             } else {
                 precioDiv.textContent = '';
                 articuloDiv.textContent = 'Producto no encontrado';
@@ -112,8 +101,8 @@
         });
 
         barcodeInput.focus();
-
-        // Registro del Service Worker
+		
+		// Registro del Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('https://servando-guardado.github.io/verificador-precios/service-worker.js').then(function(registration) {
@@ -123,7 +112,7 @@
                 });
             });
         }
-
+		
     </script>
 </body>
 </html>
