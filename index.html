@@ -102,17 +102,6 @@
 
         barcodeInput.focus();
 		
-		// Registro del Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('https://servando-guardado.github.io/verificador-precios/service-worker.js').then(function(registration) {
-                    console.log('ServiceWorker registrado con éxito: ', registration);
-                }).catch(function(error) {
-                    console.log('Error al registrar el ServiceWorker: ', error);
-                });
-            });
-        }
-		
     </script>
 </body>
 </html>
