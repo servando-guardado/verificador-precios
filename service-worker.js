@@ -4,7 +4,8 @@ const urlsToCache = [
   'https://servando-guardado.github.io/verificador-precios/icon-144x144.png',
   'https://servando-guardado.github.io/verificador-precios/icon-192x192.png',
   'https://servando-guardado.github.io/verificador-precios/icon-512x512.png',
-  'https://servando-guardado.github.io/verificador-precios/productos.csv' // Cachear el archivo CSV
+  'https://servando-guardado.github.io/verificador-precios/productos.csv', // Cachear el archivo CSV
+  'https://servando-guardado.github.io/verificador-precios/favicon.ico'
 ];
 
 self.addEventListener('install', function(event) {
