@@ -86,7 +86,7 @@
             const product = findProduct(barcode);
 
             if (product) {
-                precioDiv.textContent = `${product.precio}`;
+                precioDiv.textContent = `${parseFloat(product.precio).toFixed(2)}`;
                 articuloDiv.textContent = `${product.articulo}`;
                 codigoDiv.textContent = `${barcode}`;
             } else {
